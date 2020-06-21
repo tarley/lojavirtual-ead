@@ -1,0 +1,107 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "description": "",
+    "version": "1.0"
+  },
+  "produces": ["application/json"],
+  "host": "lojavirtual-api--tarleylana.repl.co",
+  "basePath": "/api/v1",
+  "paths": {
+    "/categorias": {
+      "get": {
+        "tags": ["categorias"],
+        "description": "Retorna as categorias de produtos da loja",
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          }
+        }
+      }
+    },
+    "/produtos": {
+      "get": {
+        "tags": ["produtos"],
+        "description": "Retorna os produtos de uma determinada categoria ou todos os produtos da loja caso a categoria não seja informada",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "idCategoria",
+            "description": "Identificador da categoria.",
+            "required": false,
+            "schema": {
+              "type": "bitint",
+              "minimum": 1,
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          }
+        }
+      }
+    },
+    "/compras": {
+      "post": {
+        "tags": ["compras"],
+        "description": "Registra uma compra",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pedidos Pet object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Compra"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Compra": {
+      "type": "object",
+      "properties": {
+        "idUsuario": {
+          "type": "string",
+          "description": "RA do aluno que está fazendo a compra."
+        },
+        "compras": {
+          "type": "array",
+          "description": "Lista com todas as compras realizadas pelo usuário",
+          "xml": {
+            "name": "itemCompra",
+            "wrapped": true
+          },
+          "items": {
+            "$ref": "#/definitions/ItemCompra"
+          }
+        }
+      }
+    },
+    "ItemCompra": {
+      "type": "object",
+      "properties": {
+        "idProduto": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Código do produto"
+        },
+        "quantidade": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Quantidade de produtos"
+        }
+      }
+    }
+  }
+}
